@@ -6,7 +6,7 @@
 #    By: unknow <unknow@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/13 11:21:40 by robriard          #+#    #+#              #
-#    Updated: 2021/12/07 13:43:14 by unknow           ###   ########.fr        #
+#    Updated: 2021/12/27 17:49:50 by unknow           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ NAME = containers
 CC = clang++
 FLAGS = -Wall -Wextra -Werror --std=c++98
 
-SRCS =	main.cpp
+SRCS =	srcs/main.cpp
 		
 		
 OBJS = ${SRCS:.cpp=.o}
