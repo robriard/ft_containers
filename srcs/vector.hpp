@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:06:21 by unknow            #+#    #+#             */
-/*   Updated: 2021/12/28 23:46:08 by unknow           ###   ########.fr       */
+/*   Updated: 2021/12/29 12:17:35 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ namespace ft {
 					this->_vector = this->_allocator.allocate(this->_capacity);
 				for (; first != last; first++) this->_allocator.construct(&this->_vector[this->_size++], *first);
 			};
-            vector (const vector& x) : _allocator(x._allocator), _size(x._size), _capacity(x._capacity) {
+            vector (const vector& x) : _allocator(x._allocator), _size(x._size), _capacity(x._size) {
 				if (this->_capacity)
 					this->_vector = this->_allocator.allocate(this->_capacity);
 				for (size_type i = 0; i < this->_size; i++) this->_allocator.construct(&this->_vector[i], x._vector[i]);

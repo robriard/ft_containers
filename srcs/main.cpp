@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/27 17:47:06 by unknow            #+#    #+#             */
-/*   Updated: 2021/12/28 22:27:24 by unknow           ###   ########.fr       */
+/*   Created: 2021/12/30 10:11:49 by unknow            #+#    #+#             */
+/*   Updated: 2021/12/30 14:36:33 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 #ifndef STD
 # define NAMESPACE ft
-# define STATUS (std::string)"ft"
+# define KEY static_cast<std::string>("ft")
 #else
 # define NAMESPACE std
-# define STATUS (std::string)"std"
+# define KEY static_cast<std::string>("std")
 #endif
 
 using namespace NAMESPACE;
@@ -30,7 +30,7 @@ void	print(vector<vector<T> >& lst)
 	for (typename vector<vector<T> >::iterator it = lst.begin(); it != lst.end(); it++)
 	{
 		for (typename vector<T>::iterator it2 = it->begin(); it2 != it->end(); it2++)
-            std::cout << *it2 << ' ';
+			std::cout << *it2 << ' ';
 		std::cout << '\n';
 	}
 }
@@ -78,16 +78,20 @@ void	print_vector(vector<T> &test, int index = 0)
 	{
 		std::cout << *it << " ";
 		if (((it - beg) % 10 == 9) && it > beg)
-			std::cout << std::endl;
+			std::cout << " {" << index << "}" << std::endl;
 	}
 	std::cout << std::endl;
 }
 
+
+
+
 template <class T>
 void	push_pop_back_tests(void)
 {
-    if (STATUS == (std::string)"ft") std::cout << std::endl << "FT PUSH BACK & POP BACK TESTS" << std::endl;
-    else std::cout << std::endl << "STD PUSH BACK & POP BACK TESTS" << std::endl;
+	if (KEY == static_cast<std::string>("ft")) std::cout << std::endl << "FT PUSH BACK & POP BACK TESTS" << std::endl;
+	else std::cout << std::endl << "STD PUSH BACK & POP BACK TESTS" << std::endl;
+	
 	vector<T> test;
 
 	std::cout << "Empty ? " << test.empty() << " / Capacity : " << test.capacity() << " / Size : " << test.size() << std::endl;
@@ -109,55 +113,55 @@ void	push_pop_back_tests(void)
 template <class T>
 void	resize_tests(void)
 {
-	if (STATUS == (std::string)"ft") std::cout << std::endl << "FT RESIZE TESTS" << std::endl;
-	else std::cout << std::endl << " STD RESIZE TESTS" << std::endl;
-    vector<T> test(12, 12);
-	std::cout << "12: s: " << test.size() << ", c: " << test.capacity() << std::endl;
+	if (KEY == static_cast<std::string>("ft")) std::cout << std::endl << "FT RESIZE TESTS" << std::endl;
+	else std::cout << std::endl << "STD RESIZE TESTS" << std::endl;
+	
+	vector<T> test(12, 12);
 
 	test.resize(72);
-	std::cout << "72: s: " << test.size() << ", c: " << test.capacity() << std::endl;
+	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
 	test.resize(100);
-	std::cout << "100: s: " << test.size() << ", c: " << test.capacity() << std::endl;
+	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
 	test.resize(4170);
-	std::cout << "4170: s: " << test.size() << ", c: " << test.capacity() << std::endl;
+	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
 	test.resize(171, 12);
-	std::cout << "171: s: " << test.size() << ", c: " << test.capacity() << std::endl;
+	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
 	test.resize(62);
-	std::cout << "62: s: " << test.size() << ", c: " << test.capacity() << std::endl;
+	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
 }
 
 template <class T>
 void	insert_tests()
 {
-	if (STATUS == (std::string)"ft") std::cout << std::endl << "FT INSERT TESTS" << std::endl;
+	if (KEY == static_cast<std::string>("ft")) std::cout << std::endl << "FT INSERT TESTS" << std::endl;
 	else std::cout << std::endl << "STD INSERT TESTS" << std::endl;
-    vector<T> test(1, 1);
+	vector<T> test(1, 1);
 	vector<T> test2(5, 5);
-	print_vector<T>(test, 0);
-	
+
 	test.insert(test.begin(), 200, 12);
-	print_vector<T>(test, 1);
+	print_vector<T>(test, 0);
 	test.insert(test.begin() + 12, 200, 30);
-	print_vector<T>(test, 2);
+	print_vector<T>(test, 1);
 	test.insert(test.end(), 12, 50);
-	print_vector<T>(test, 3);
+	print_vector<T>(test, 2);
 	test.insert(test.end() - 1, 0, 60);
-	print_vector<T>(test, 4);
+	print_vector<T>(test, 3);
 	test.insert(test.end() - 1, 1, 70);
-	print_vector<T>(test, 5);
+	print_vector<T>(test, 4);
 	test.insert(test.begin() + 412, test2.begin(), test2.end());
-	print_vector<T>(test, 6);
+	print_vector<T>(test, 5);
 	test.insert(test.begin() + 6, test2.begin(), test2.end());
-	print_vector<T>(test, 7);
+	print_vector<T>(test, 6);
 	test.insert(test.end(), test2.begin(), test2.end());
-	print_vector<T>(test, 8);
+	print_vector<T>(test, 7);
 }
 
 template <class T>
 void	reserve_tests(void)
 {
-	if (STATUS == (std::string)"ft") std::cout << std::endl << "FT RESERVE TESTS" << std::endl;
-    else std::cout << std::endl << "STD RESERVE TESTS" << std::endl;
+	if (KEY == static_cast<std::string>("ft")) std::cout << std::endl << "FT RESERVE TESTS" << std::endl;
+	else std::cout << std::endl << "STD RESERVE TESTS" << std::endl;
+	
 	vector<T> test(65, 7);
 	std::cout << "s: " << test.size() << ", c: " << test.capacity() << std::endl;
 	test.reserve(12);
@@ -188,8 +192,9 @@ void	reserve_tests(void)
 template <class T>
 void	copy_swap_tests(void)
 {
-	if (STATUS == (std::string)"ft") std::cout << std::endl << "FT COPY && SWAP TESTS" << std::endl;
-    else std::cout << std::endl << "STD COPY && SWAP TESTS" << std::endl;
+	if (KEY == static_cast<std::string>("ft")) std::cout << std::endl << "FT COPY && SWAP TESTS" << std::endl;
+	else std::cout << std::endl << "STD COPY && SWAP TESTS" << std::endl;
+	
 	vector<T> test;
 	for (size_t i = 0; i < 50; i++) { test.push_back(i); }
 	vector<T> test_copy(test);
@@ -211,8 +216,9 @@ void	copy_swap_tests(void)
 template <class T>
 void	reverse_it_tests(void)
 {
-	if (STATUS == (std::string)"ft") std::cout << std::endl << "FT REVERSE IT TESTS" << std::endl;
-    else std::cout << std::endl << "STD REVERSE IT TESTS" << std::endl;
+	if (KEY == static_cast<std::string>("ft")) std::cout << std::endl << "FT REVERSE IT TESTS" << std::endl;
+	else std::cout << std::endl << "STD REVERSE IT TESTS" << std::endl;
+	
 	vector<T> test;
 	for (size_t i = 0; i < 12; i++) { test.push_back(i); }
 	typename vector<T>::reverse_iterator		revbeg = test.rbegin();
@@ -239,8 +245,9 @@ void	reverse_it_tests(void)
 template <class T>
 void	erase_clear_tests(void)
 {
-	if (STATUS == (std::string)"ft") std::cout << std::endl << "FT ERASE && CLEAR TESTS" << std::endl;
-    else std::cout << std::endl << "STD ERASE && CLEAR TESTS" << std::endl;
+	if (KEY == static_cast<std::string>("ft")) std::cout << std::endl << "FT ERASE && CLEAR TESTS" << std::endl;
+	else std::cout << std::endl << "STD ERASE && CLEAR TESTS" << std::endl;
+
 	vector<T> test(31, 12);
 	test.erase(test.begin(), test.begin() + 5);
 	print_vector<T>(test);
@@ -252,8 +259,9 @@ void	erase_clear_tests(void)
 
 void	max_size_tests(void)
 {
-	if (STATUS == (std::string)"ft") std::cout << std::endl << "FT MAX SIZE TESTS" << std::endl;
-    else std::cout << std::endl << "STD MAX SIZE TESTS" << std::endl;
+	if (KEY == static_cast<std::string>("ft")) std::cout << std::endl << "FT MAX SIZE TESTS" << std::endl;
+	else std::cout << std::endl << "STD MAX SIZE TESTS" << std::endl;
+
 	vector<int> test(31, 12);
 	vector<std::string> test2;
 	vector<long long int> test3;
@@ -268,8 +276,8 @@ void	max_size_tests(void)
 
 void	awesome_tests(void)
 {
-	if (STATUS == (std::string)"ft") std::cout << std::endl << "FT AWESOME TESTS" << std::endl;
-    else std::cout << std::endl << "STD AWESOME TESTS" << std::endl;
+	if (KEY == static_cast<std::string>("ft")) std::cout << std::endl << "FT AWESOME TESTS" << std::endl;
+	else std::cout << std::endl << "STD AWESOME TESTS" << std::endl;
 	vector<Awesome> test(21, 12);
 	print_vector<Awesome>(test);
 	vector<Awesome> test2;
