@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 11:35:10 by unknow            #+#    #+#             */
-/*   Updated: 2021/12/27 16:01:42 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/06 16:11:48 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,24 @@ namespace ft {
 			int				color;
 
             /* *********** member functions *********** */
-			Node() : value(), parent(NULL), left(NULL), right(NULL), color(BLACK) {return;};
+			Node() : value(), parent(NULL), left(NULL), right(NULL), color(RED) {return;};
 			Node(value_type v, node_pointer parent = NULL, node_pointer left = NULL, node_pointer right = NULL)
-				: value(v), parent(parent), left(left), right(right), color(BLACK) {return;};
+				: value(v), parent(parent), left(left), right(right), color(RED) {return;};
 			Node(const value_type v, node_pointer parent = NULL, node_pointer left = NULL, node_pointer right = NULL)
-				: value(v), parent(parent), left(left), right(right), color(BLACK) {return;};
+				: value(v), parent(parent), left(left), right(right), color(RED) {return;};
 			Node(const_node_reference src)
-				: value(src.value), parent(src.parent), left(src.left), right(src.right), color(BLACK) {return;};
+				: value(src.value), parent(src.parent), left(src.left), right(src.right), color(RED) {return;};
 			virtual ~Node(void) {return;};
 
 			node_reference operator=(const_node_reference rhs) {
 				if (rhs == *this) return *this;
 				this->value = rhs.value;
-				this->value = rhs.value;
 				this->parent = rhs.parent;
 				this->left = rhs.left;
 				this->right = rhs.right;
+				this->color = rhs.color;
 				return *this;
 			}
-			std::vector()
 			bool operator==(const_node_reference rhs) {return (this->value == rhs.value);};
 	};
 
@@ -81,7 +80,7 @@ namespace ft {
 			typedef typename ft::RBT_const_iterator<Node, key_compare>	const_iterator;
             
 			/* *********** constructor *********** */
-			RBT(const key_compare &cmp = key_compare()) : _root(NULL), _cmp(cmp), _allocator(allocator_type()) {return;};
+			RBT(const key_compare &cmp = key_compare()) : _root(NULL), _cmp(cmp), _allocator(node_allocator()) {return;};
 			RBT(const RBT &src) : _root(src._root), _cmp(src._cmp), _allocator(src._allocator) {return;};
 			~RBT(void) {return;};
 
@@ -95,24 +94,75 @@ namespace ft {
 			node_pointer operator->() const {return (&(this->_root));};
 
 			/* *********** publics members functions *********** */
-			node_pointer	find(const key_type &to_find) const {return (find(to_find, _root));};
-			node_pointer	find(const node_pointer to_find) const {return (find(to_find->value, _root));};
-			node_pointer	find(const node_pointer to_find, node_pointer node) const {return (find(to_find->value, node));};
-			node_pointer	find(const value_type &to_find) const {return (find(to_find->value, _root));};
-			bool erase(const value_type &to_find) {
-				ft::pair<node_pointer, bool> ret = erase(to_find, _root);
-				if ((_root = ret.first))
-					_root->parent = NULL;
-				return (ret.second);
+			ft::pair<iterator, bool> insert( const value_type& value) {
+				Node::node_pointer newNode(value);
+				if (!this->_root) {
+					this->_root = newNode;
+					this->_root->color = BLACK;
+					return make_pair<iterator, bool>(iterator(node), true);
+				}
+				Node::node_pointer x = this->_root;
+				Node::node_pointer parent = NULL;
+				while(x) {
+					parent = x;
+					if (this->_cmp(x->value.first, newNode->value.first))
+						x = x->rigth;
+					else if (this->_cmp(newNode->value.first, x->value.first))
+						x = x->left;
+					else
+						return make_pair<iterator, bool>(NULL, false);
+				}
+				x = newNode;
+				x->parent = parent;
+				insertFix(x);
+				return make_pair<iterator, bool>(x, true);
 			}
-			bool erase(node_pointer node) {
-				ft::pair<node_pointer,bool> ret = erase(node->value, _root);
-				if ((_root = ret.first))
-					_root->parent = NULL;
-				return (ret.second);
+			ft::pair<iteator, bool> erase(const value_type& value) {
+				Node::node_pointer deletedNode = this->_root;
+				while (deletedNode && deletedNode->value.first != value.first) {
+					if (this->_cmp(value.first, deletedNode->value.first))
+						deletedNode = deletedNode->left;
+					else if (this->_cmp(deletedNode->value.first, value.first))
+						deletedNode = deletedNode->right;
+				}
+				if (!deletedNode) return make_pair<iterator, bool>(this->_root, false);
+				int originalColor = deletedNode->color;
+				Node::node_pointer child;
+				if (!deletedNode->left && deletedNode->right) {
+					child = deletedNode->rigth;
+					this->transplant(deletedNode, child)
+				} else if (deletedNode->left && !deletedNode->right) {
+					child = deletedNode->left;
+				} else {
+					
+				}
 			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			node_pointer	find(const key_type &to_find) const {return (this->valuefind(to_find, _root));};
+			node_pointer	find(const node_pointer to_find) const {return (this->find(to_find->value, _root));};
+			node_pointer	find(const node_pointer to_find, node_pointer node) const {return (this->find(to_find->value, node));};
+			node_pointer	find(const value_type &to_find) const {return (this->find(to_find->value, _root));};
+			
+
 			node_pointer	minValue(void) {return this->minValue(this->_root);};
 			node_pointer	maxValue(void) {return this->maxValue(this->_root);};
+			
 			void			clear(void) {this->clear(this->_root);};
 			size_type		max_size(void) const {return this->allocator.max_size();};
 			
@@ -133,36 +183,25 @@ namespace ft {
 			if (this->cmp(to_find.first, node->value.first)) return find(to_find, node->left);
 			if (this->cmp(node->value.first, to_find.first)) return find(to_find, node->right);
 			return node;
-		}
+		};
 		node_pointer 					find(const key_type to_find, Node::node_pointer node) {
 			if (!node) return NULL;
 			if (this->cmp(to_find, node->value.first)) return find(to_find, node->left);
 			if (this->cmp(node->value.first, to_find)) return find(to_find, node->right);
 			return node;
-		}
-		ft::pair<node_pointer, bool>	erase(const Node::value_type &to_find, node_pointer node) {
-			if (!node) return ft::make_pair(node, false);
-			if (this->cmp(to_find.first, node->value.first)) return erase(to_find, node->left);
-			if (this->cmp(node->value.first, to_find.first)) return erase(to_find, node->right);
-			if (to_find.first == node->value.first) {
-				if (node->parent && to_find.first == node->parent->left.first)
-					node->parent->left = NULL;
-				if (node->parent && to_find.first == node->parent->right.first)
-					node->parent->right = NULL;
-				this->allocator.destroy(node);
-				this->allocator.deallocate(node, 1);
-			}
-		}
+		};
+			
 		node_pointer					minValue(Node::node_pointer node) {
 			if (!node) return NULL;
-			if (!node->left) return maxValue(node->left);
+			if (node->left) return maxValue(node->left);
 			return node;
-		}
+		};
 		node_pointer					maxValue(Node::node_pointer node) {
 			if (!node) return NULL;
-			if (!node->right) return maxValue(node->right);
+			if (node->right) return maxValue(node->right);
 			return node;
-		}
+		};
+		
 		void							clear(Node::node_pointer node) {
 			if (!node) return;
 			if (node->left) clear(node->left);
@@ -172,16 +211,97 @@ namespace ft {
 			return;
 		};
 		
+		void							leftRotate(Node::node_pointer node) {
+			Node::node_pointer tmp = node->rigth;
+			node->rigth = tmp->left;
+			if (tmp->left)
+				tmp->left->parent = node;
+			tmp->parent = node->parent;
+			if (!node->parent)
+				this->_root = tmp;
+			else if (node == node->parent->left)
+				node->parent->left = tmp;
+			else
+				node->parent->right = tmp;
+			tmp->left = x;
+			node->parent = tmp;
+			return;
+		};
+		void							rigthRotate(Node::node_pointer node) {
+			Node::node_pointer tmp = node->left;
+			node->left = tmp->right;
+			if (tmp->right)
+				tmp->right->parent = node;
+			tmp->parent = node->parent;
+			if (!node->parent)
+				this->_root = tmp;
+			else if (node == node->parent->rigth)
+				node->parent->right = tmp;
+			else
+				node->parent->left = tmp;
+			tmp->rigth = node;
+			node->parent = tmp;
+		};
+		void							transplant(Node::node_pointer node1, Node::node_pointer ndoe2) {
+			if (!node1->parent)
+				this->_root = node2;
+			else if (node1 == node1->parent->left);
+				node1->parent->left = node2;
+			else
+				node->parent->right = node2;
+			node2->parent = node1->parent;
+		};
+		void	insertFix(Node::node_pointer node){
+			while (node->parent && node->parent->color == RED) {
+				if (node->parent->parent->left == node->parent) {
+					
+					if (node->parent->parent->right == RED) {
+						node->parent->parent->left->color = node->parent->parent->rigth->color = BLACK;
+						node->parent->parent->color = RED;
+						node = node->parent->parent;
+					} else {
+						if (node == node->parent->rigth) {
+							node = node->parent;
+							leftRotate(node);
+						}
+						node->parent->color = BLACK;
+						node->parent->parent->color = RED;
+						rigthRotate(node->parent->parent);
+					}
+				
+				} else {
+					
+					if (node->parent->parent->left == RED) {
+						node->parent->parent->left->color = node->parent->parent->rigth->color = BLACK;
+						node->parent->parent->color = RED;
+						node = node->parent->parent;
+					} else {
+						if (node == node->parent->left) {
+							node = node->parent;
+							rigthRotate(node);
+						}
+						node->parent->color = BLACK;
+						node->parent->parent->color = RED;
+						leftRotate(node->parent->parent);
+					}
+				}
+			}
+			this->_root->color = BLACK;
+			return;
+		};
 	};
 }
 
 #endif
 
+
+std::vector<int>;
+
 //	finish: ✅		in progress: 🔄
 
 /*
 FIND ✅
-INSERT 🔄
+INSERT ✅
 ERASE 🔄
 MIN_VALUE ✅
 MAX_VALUE ✅
