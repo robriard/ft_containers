@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 20:47:13 by unknow            #+#    #+#             */
-/*   Updated: 2021/12/14 21:43:33 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/11 16:13:12 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,35 @@ struct pair {
 };
 
 template <class T1, class T2>
-bool operator==(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) {return lhs.first==rhs.first && lhs.second==rhs.second;}
+bool operator==(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) {return lhs.first==rhs.first && lhs.second==rhs.second;};
 template <class T1, class T2>
-bool operator!=(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) {return !(lhs==rhs);}
+bool operator!=(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) {return !(lhs==rhs);};
 template <class T1, class T2>
-bool operator<(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) {return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second);}
+bool operator<(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) {return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second);};
 template <class T1, class T2>
-bool operator<=(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) {return !(rhs<lhs);}
+bool operator<=(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) {return !(rhs<lhs);};
 template <class T1, class T2>
-bool operator>(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) {return rhs<lhs;}
+bool operator>(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) {return rhs<lhs;};
 template <class T1, class T2>
-bool operator>=(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) {return !(lhs<rhs);}
+bool operator>=(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) {return !(lhs<rhs);};
 
 /* ************************************************************************** */
 /*               MAKE_PAIR                                                    */
 /* ************************************************************************** */
     template <class T1, class T2>
-	pair<T1, T2> make_pair(T1 x, T2 y) {return (pair<T1, T2>(x, y));}
+	ft::pair<T1, T2> make_pair(T1 x, T2 y) {return (ft::pair<T1, T2>(x, y));};
+
+    template <class Arg1, class Arg2, class Result>
+	struct binary_function {
+		typedef Arg1 first_argument_type;
+		typedef Arg2 second_argument_type;
+		typedef Result result_type;
+	};
+
+	template <class T>
+	struct less : binary_function <T,T,bool> {
+		bool operator() (const T& x, const T& y) const { return x < y; };
+	};
 }
 
 #endif

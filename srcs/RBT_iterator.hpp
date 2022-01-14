@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 09:33:49 by unknow            #+#    #+#             */
-/*   Updated: 2021/12/27 13:50:19 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/12 17:57:28 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ namespace ft {
 	class RBT_iterator : ft::iterator<ft::bidirectional_iterator_tag, T> {
 		public:
 			typedef T *																						node_ptr;
-			typedef typename T::value_type																	value_type;
+			typedef typename T::value_type																value_type;
 			typedef typename ft::iterator<ft::bidirectional_iterator_tag, value_type>::iterator_category	iterator_category;
 			typedef typename ft::iterator<ft::bidirectional_iterator_tag, value_type>::difference_type		difference_type;
 			typedef typename ft::iterator<ft::bidirectional_iterator_tag, value_type>::pointer				pointer;
@@ -89,6 +89,7 @@ namespace ft {
 
             /* *********** member functions *********** */
 			node_ptr	getNode(void) const {return(this->_node);};
+			node_ptr	getParent(void) const {return(this->_parent);};
 
 		
         private:
@@ -103,7 +104,7 @@ namespace ft {
 	class RBT_const_iterator : ft::iterator<ft::bidirectional_iterator_tag, T> {
 		public:
 			typedef T *																						node_ptr;
-			typedef typename T::value_type																	value_type;
+			typedef typename T::value_type const															value_type;
 			typedef typename ft::iterator<ft::bidirectional_iterator_tag, value_type>::iterator_category	iterator_category;
 			typedef typename ft::iterator<ft::bidirectional_iterator_tag, value_type>::difference_type		difference_type;
 			typedef typename ft::iterator<ft::bidirectional_iterator_tag, value_type>::pointer				pointer;
@@ -113,6 +114,7 @@ namespace ft {
 			RBT_const_iterator(void) : _node(NULL), _parent(NULL) {return;};
 			RBT_const_iterator(node_ptr node, node_ptr parent) : _node(node), _parent(parent) {return;};
 			RBT_const_iterator(const RBT_const_iterator &it) : _node(it._node), _parent(it._parent) {return;};
+			RBT_const_iterator(const RBT_iterator<T, Compare> &it) : _node(it.getNode()), _parent(it.getParent()) {return;};
 			virtual ~RBT_const_iterator(void) {return;};
 
             /* *********** operators *********** */
@@ -169,6 +171,7 @@ namespace ft {
 
             /* *********** member functions *********** */
 			node_ptr	getNode(void) const {return(this->_node);};
+			node_ptr	getParent(void) const {return(this->_parent);};
 
 		
         private:
