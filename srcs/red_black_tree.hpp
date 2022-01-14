@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 11:35:10 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/14 16:42:10 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/14 17:48:24 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ namespace ft {
 			}
 			ft::pair<iterator, bool> erase(const key_type& value) {
 				node_pointer deletedNode = this->_root;
+				node_pointer x, y;
 				while (deletedNode and deletedNode->value.first != value) {
 					if (this->_cmp(value, deletedNode->value.first))
 						deletedNode = deletedNode->left;
@@ -171,34 +172,35 @@ namespace ft {
 						deletedNode = deletedNode->right;
 				}
 				if (not deletedNode) return ft::make_pair<iterator, bool>(this->end(), false);
-				int originalColor = deletedNode->color;
-				node_pointer child;
+				y = deletedNode;
+    			int y_original_color = y->color;
 				if (not deletedNode->left) {
-					child = deletedNode->right;
-					this->_transplant(deletedNode, child);
+					x = deletedNode->right;
+					this->_transplant(deletedNode, deletedNode->right);
 				} else if (not deletedNode->right) {
-					child = deletedNode->left;
+					x = deletedNode->left;
+					this->_transplant(deletedNode, deletedNode->left);
 				} else {
-					node_pointer tmp = this->_minValue(deletedNode->right);
-					originalColor = tmp->color;
-					child = tmp->right;
-					if (tmp->parent == deletedNode)
-						tmp->parent = tmp;
+					y = this->_minValue(deletedNode->right);
+					y_original_color = y->color;
+					x = y->right;
+					if (y->parent == deletedNode)
+						x->parent = y;
 					else {
-						this->_transplant(tmp, tmp->right);
-						tmp->right = deletedNode->right;
-						tmp->right->parent = tmp;
+						this->_transplant(y, y->right);
+						y->right = deletedNode->right;
+						y->right->parent = y;
 					}
-					this->_transplant(deletedNode, tmp);
-					tmp->left = deletedNode->left;
-					tmp->left->parent = tmp;
-					tmp->color = deletedNode->color;
+					this->_transplant(deletedNode, y);
+					y->left = deletedNode->left;
+					y->left->parent = y;
+					y->color = deletedNode->color;
 				}
 				this->_allocator.destroy(deletedNode);
 				this->_allocator.deallocate(deletedNode, 1);
-				if (originalColor == BLACK)
-					this->_deleteFix(child);
-				return ft::make_pair<iterator, bool>(iterator(deletedNode, NULL), true);
+				if (y_original_color == BLACK)
+					this->_deleteFix(x);
+				return ft::make_pair<iterator, bool>(this->end(), true);
 			}
 
 			iterator		upper_bound(const key_type& key) {
