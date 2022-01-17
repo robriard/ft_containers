@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 11:35:10 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/14 17:48:24 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/17 16:05:55 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ namespace ft {
 						break;
 					it++;
 				}
-				return (it);
+				return (++it);
 			};
 			const_iterator	lower_bound(const key_type& key) const {
 				const_iterator it = begin();
@@ -246,7 +246,7 @@ namespace ft {
 						break;
 					it++;
 				}
-				return (it);
+				return (++it);
 			};
 
 			iterator		find (const key_type& k) {return this->_find(k, this->_root);};
