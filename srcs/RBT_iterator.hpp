@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 09:33:49 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/12 17:57:28 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/19 15:59:23 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ namespace ft {
 	class RBT_iterator : ft::iterator<ft::bidirectional_iterator_tag, T> {
 		public:
 			typedef T *																						node_ptr;
-			typedef typename T::value_type																value_type;
+			typedef typename T::value_type																	value_type;
 			typedef typename ft::iterator<ft::bidirectional_iterator_tag, value_type>::iterator_category	iterator_category;
 			typedef typename ft::iterator<ft::bidirectional_iterator_tag, value_type>::difference_type		difference_type;
 			typedef typename ft::iterator<ft::bidirectional_iterator_tag, value_type>::pointer				pointer;
@@ -52,7 +52,7 @@ namespace ft {
 							this->_node = this->_node->left;
 					}
 					else {
-						while (this->_node->parent && this->_node->parent->right == this->_node)
+						while (this->_node->parent and this->_node->parent->right == this->_node)
 							this->_node = this->_node->parent;
 						this->_node = this->_node->parent;
 					}
@@ -70,7 +70,7 @@ namespace ft {
 					if (this->_node->left)
 						this->_node = this->_node->left;
 					else {
-						while (this->_node->parent && this->_node->parent->left == this->_node)
+						while (this->_node->parent and this->_node->parent->left == this->_node)
 							this->_node = this->_node->parent;
 						this->_node = this->_node->parent;
 					}
@@ -134,7 +134,7 @@ namespace ft {
 							this->_node = this->_node->left;
 					}
 					else {
-						while (this->_node->parent && this->_node->parent->right == this->_node)
+						while (this->_node->parent and this->_node->parent->right == this->_node)
 							this->_node = this->_node->parent;
 						this->_node = this->_node->parent;
 					}
@@ -152,7 +152,7 @@ namespace ft {
 					if (this->_node->left)
 						this->_node = this->_node->left;
 					else {
-						while (this->_node->parent && this->_node->parent->left == this->_node)
+						while (this->_node->parent and this->_node->parent->left == this->_node)
 							this->_node = this->_node->parent;
 						this->_node = this->_node->parent;
 					}

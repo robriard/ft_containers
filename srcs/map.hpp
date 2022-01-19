@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 10:46:39 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/17 16:03:46 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/19 15:54:27 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ namespace ft {
             /* ************************************************************************** */
 			/* ========== Constructors ========== */
 			explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-				: _allocator(alloc), _compare(comp), _rbt(), _size(0) {return;};
-			
-			
-			
+				: _allocator(alloc), _compare(comp), _rbt(), _size(0) {return;};			
 			template <class InputIterator>
 			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = 0)
@@ -76,7 +73,7 @@ namespace ft {
 			~map(void){return;};
 			
 			map& operator= (const map& rhs) {
-				if (this == rhs)
+				if (*this == rhs)
 					return *this;
 				this->_allocator = rhs._allocator;
 				this->_compare = rhs._compare;
@@ -136,8 +133,12 @@ namespace ft {
 			};
 			void erase				(iterator position) {this->erase(position->first);};
 			void erase				(iterator first, iterator last) {
-				for (; first != last; ++first)
-					this->erase(first->first);
+				iterator tmp;
+				while (first != last) {
+					tmp = first;
+					first++;
+					this->erase(tmp->first);
+				}
 			};
 
 			void					swap (map& x) {
@@ -180,6 +181,47 @@ namespace ft {
 			size_type				_size;
 	};
 
+	template <typename Key, typename T, typename Compare, typename Allocator>
+	bool operator==(const map<Key, T, Compare, Allocator> &lhs, const map<Key, T, Compare, Allocator> &rhs) {
+		typename map<Key, T, Compare, Allocator>::const_iterator	it = lhs.begin();
+		typename map<Key, T, Compare, Allocator>::const_iterator	ite = lhs.end();
+		typename map<Key, T, Compare, Allocator>::const_iterator	it2 = rhs.begin();
+		while (it != ite && it2 != rhs.end()) {
+			if (it->first != it2->first || it->second != it2->second)
+				return (false);
+			it++;
+			it2++;
+		}
+		return (it == ite && it2 == rhs.end());
+	};
+	template <typename Key, typename T, typename Compare, typename Allocator>
+	bool operator!=(const map<Key, T, Compare, Allocator> &lhs, const map<Key, T, Compare, Allocator> &rhs){return (!(lhs == rhs));};
+
+	template <typename Key, typename T, typename Compare, typename Allocator>
+	bool operator<(const map<Key, T, Compare, Allocator> &lhs, const map<Key, T, Compare, Allocator> &rhs) {
+		typename map<Key, T, Compare, Allocator>::const_iterator	it = lhs.begin();
+		typename map<Key, T, Compare, Allocator>::const_iterator	ite = lhs.end();
+		typename map<Key, T, Compare, Allocator>::const_iterator	it2 = rhs.begin();
+
+		while (it != ite && it2 != rhs.end()) {
+			if (it->first != it2->first)
+				return (it->first < it2->first);
+			else if (it->second != it2->second)
+				return (it->second < it2->second);
+			it++;
+			it2++;
+		}
+		return (it == ite && it2 != rhs.end());
+	};
+	template <typename Key, typename T, typename Compare, typename Allocator>
+	bool operator>(const map<Key, T, Compare, Allocator> &lhs, const map<Key, T, Compare, Allocator> &rhs) {return (!(rhs < lhs) and lhs != rhs);};
+	template <typename Key, typename T, typename Compare, typename Allocator>
+	bool operator<=(const map<Key, T, Compare, Allocator> &lhs, const map<Key, T, Compare, Allocator> &rhs) {return (!(rhs > lhs));};
+	template <typename Key, typename T, typename Compare, typename Allocator>
+	bool operator>=(const map<Key, T, Compare, Allocator> &lhs, const map<Key, T, Compare, Allocator> &rhs) {return (!(lhs < rhs));};
+
+	template <typename Key, typename T, typename Compare, typename Allocator>
+	void swap(map<Key, T, Compare, Allocator> &lhs, map<Key, T, Compare, Allocator> &rhs) {lhs.swap(rhs);};
 }
 
 #endif

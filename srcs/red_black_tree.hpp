@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 11:35:10 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/17 16:05:55 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/19 16:20:01 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,27 +173,27 @@ namespace ft {
 				}
 				if (not deletedNode) return ft::make_pair<iterator, bool>(this->end(), false);
 				y = deletedNode;
-    			int y_original_color = y->color;
-				if (not deletedNode->left) {
+				int y_original_color = y->color;
+				if (deletedNode->left == NULL) {
 					x = deletedNode->right;
 					this->_transplant(deletedNode, deletedNode->right);
-				} else if (not deletedNode->right) {
+				} else if (deletedNode->right == NULL) {
 					x = deletedNode->left;
 					this->_transplant(deletedNode, deletedNode->left);
 				} else {
 					y = this->_minValue(deletedNode->right);
 					y_original_color = y->color;
 					x = y->right;
-					if (y->parent == deletedNode)
+					if (x and y->parent == deletedNode) {
 						x->parent = y;
-					else {
+					} else {
 						this->_transplant(y, y->right);
 						y->right = deletedNode->right;
-						y->right->parent = y;
+						if (y->right) y->right->parent = y;
 					}
 					this->_transplant(deletedNode, y);
 					y->left = deletedNode->left;
-					y->left->parent = y;
+					if (y->left) y->left->parent = y;
 					y->color = deletedNode->color;
 				}
 				this->_allocator.destroy(deletedNode);
@@ -201,7 +201,7 @@ namespace ft {
 				if (y_original_color == BLACK)
 					this->_deleteFix(x);
 				return ft::make_pair<iterator, bool>(this->end(), true);
-			}
+			};
 
 			iterator		upper_bound(const key_type& key) {
 				iterator it = begin();
@@ -209,7 +209,7 @@ namespace ft {
 				while (it != ite)
 				{
 					if (this->_cmp(key, it->first))
-						break;
+						return (it);
 					it++;
 				}
 				return (it);
@@ -220,7 +220,7 @@ namespace ft {
 				while (it != ite)
 				{
 					if (this->_cmp(key, it->first))
-						break;
+						return (it);
 					it++;
 				}
 				return (it);
@@ -229,24 +229,23 @@ namespace ft {
 			iterator		lower_bound(const key_type& key) {
 				iterator it = begin();
 				iterator ite = end();
-				while (it != ite)
-				{
-					if (not this->_cmp(key, it->first))
+				while (it != ite) {
+					if (not this->_cmp(it->first, key))
 						break;
 					it++;
 				}
-				return (++it);
+				return (it);
 			};
 			const_iterator	lower_bound(const key_type& key) const {
 				const_iterator it = begin();
 				const_iterator ite = end();
 				while (it != ite)
 				{
-					if (not this->_cmp(key, it->first))
+					if (not this->_cmp(it->first, key))
 						break;
 					it++;
 				}
-				return (++it);
+				return (it);
 			};
 
 			iterator		find (const key_type& k) {return this->_find(k, this->_root);};
@@ -402,11 +401,11 @@ namespace ft {
 						this->_leftRotate(node->parent);
 						sibling = node->parent->right;
 					}
-					if (sibling->left->color == BLACK and sibling->right->color == BLACK) {
+					if ((not sibling->left or sibling->left->color == BLACK) and (not sibling->right or sibling->right->color == BLACK)) {
 						sibling->color = RED;
 						node = node->parent;
 					} else {
-						if (sibling->right->color == BLACK) {
+						if (not sibling->right or sibling->right->color == BLACK) {
 							sibling->left->color = BLACK;
 							sibling->color = RED;
 							this->_rightRotate(sibling);
@@ -426,18 +425,18 @@ namespace ft {
 						this->_rightRotate(node->parent);
 						sibling = node->parent->left;
 					}
-					if (sibling->right->color == BLACK and sibling->left->color == BLACK) {
+					if ((not sibling->left or sibling->left->color == BLACK) and (not sibling->right or sibling->right->color == BLACK)) {
 						sibling->color = RED;
 						node = node->parent;
 					} else {
-						if (sibling->left->color == BLACK) {
+						if (not sibling->left or sibling->left->color == BLACK) {
 							sibling->right->color = BLACK;
 							sibling->color = RED;
 							this->_leftRotate(sibling);
 							sibling = node->parent->left;
 						}
 						sibling->color = node->parent->color;
-						node->parent->parent->color = BLACK;
+						if (node->parent->parent) node->parent->parent->color = BLACK;
 						if (sibling->left) sibling->left->color = BLACK;
 						this->_rightRotate(node->parent);
 						node = this->_root;
