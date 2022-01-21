@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 10:46:39 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/19 15:54:27 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/21 18:04:30 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,9 +214,9 @@ namespace ft {
 		return (it == ite && it2 != rhs.end());
 	};
 	template <typename Key, typename T, typename Compare, typename Allocator>
-	bool operator>(const map<Key, T, Compare, Allocator> &lhs, const map<Key, T, Compare, Allocator> &rhs) {return (!(rhs < lhs) and lhs != rhs);};
+	bool operator>(const map<Key, T, Compare, Allocator> &lhs, const map<Key, T, Compare, Allocator> &rhs) {return ((rhs < lhs) and lhs != rhs);};
 	template <typename Key, typename T, typename Compare, typename Allocator>
-	bool operator<=(const map<Key, T, Compare, Allocator> &lhs, const map<Key, T, Compare, Allocator> &rhs) {return (!(rhs > lhs));};
+	bool operator<=(const map<Key, T, Compare, Allocator> &lhs, const map<Key, T, Compare, Allocator> &rhs) {return (!(rhs < lhs));};
 	template <typename Key, typename T, typename Compare, typename Allocator>
 	bool operator>=(const map<Key, T, Compare, Allocator> &lhs, const map<Key, T, Compare, Allocator> &rhs) {return (!(lhs < rhs));};
 

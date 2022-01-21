@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 11:35:10 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/19 16:20:01 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/21 17:07:48 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,28 +132,26 @@ namespace ft {
 			};
 			
 			ft::pair<iterator, bool> insert( const value_type& value) {
-				node_pointer newNode = this->_allocator.allocate(1);
-				this->_allocator.construct(newNode, Node(value));
 				if (not this->_root) {
-					this->_root = newNode;
+					this->_root = this->_allocator.allocate(1);
+					this->_allocator.construct(this->_root, Node(value));
 					this->_root->color = BLACK;
-					return ft::make_pair<iterator, bool>(iterator(newNode, NULL), true);
+					return ft::make_pair<iterator, bool>(iterator(this->_root, NULL), true);
 				}
 				node_pointer x = this->_root;
 				node_pointer parent = NULL;
 				while(x) {
 					parent = x;
-					if (this->_cmp(x->value.first, newNode->value.first))
+					if (this->_cmp(x->value.first, value.first))
 						x = x->right;
-					else if (this->_cmp(newNode->value.first, x->value.first))
+					else if (this->_cmp(value.first, x->value.first))
 						x = x->left;
 					else {
-						this->_allocator.destroy(newNode);
-						this->_allocator.deallocate(newNode, 1);
-						return ft::make_pair<iterator, bool>(iterator(newNode, NULL), false);
+						return ft::make_pair<iterator, bool>(iterator(x, NULL), false);
 					}
 				}
-				x = newNode;
+				x = this->_allocator.allocate(1);
+				this->_allocator.construct(x, Node(value));
 				x->parent = parent;
 				if (this->_cmp(parent->value.first, x->value.first))
 					parent->right = x;

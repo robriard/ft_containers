@@ -6,13 +6,13 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 13:07:06 by hbaudet           #+#    #+#             */
-/*   Updated: 2022/01/19 16:14:35 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/21 18:01:50 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.hpp"
 #include <map>
-#include "iostream"
+#include <iostream>
 
 #ifndef STD
 # define NAMESPACE ft
@@ -31,26 +31,19 @@ void	print(map<Key, T>& lst)
 
 int main ()
 {
-  map<char,int> mymap;
-  map<char,int>::iterator itlow,itup;
+  map<char,int> foo,bar;
+  foo['a']=100;
+  foo['b']=200;
+  bar['a']=10;
+  bar['z']=1000;
 
-  mymap['a']=20;
-  mymap['b']=40;
-  mymap['c']=60;
-  mymap['d']=80;
-  mymap['e']=100;
-
-  itlow=mymap.lower_bound ('b');  // itlow points to b
-  itup=mymap.upper_bound ('d');   // itup points to e (not d!)
-
-  std::cout << "low : " << itlow->first << '\n';
-  std::cout << "up : " << itup->first << '\n';
-
-  mymap.erase(itlow,itup);        // erases [itlow,itup)
-
-  // print content:
-  for (map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-    std::cout << it->first << " => " << it->second << '\n';
+  // foo ({{a,100},{b,200}}) vs bar ({a,10},{z,1000}}):
+  if (foo == bar) std::cout << "1 foo and bar are equal\n";
+  if (foo != bar) std::cout << "2 foo and bar are not equal\n";
+  if (foo < bar) std::cout << "3 foo is less than bar\n";
+  if (foo > bar) std::cout << "4 foo is greater than bar\n";
+  if (foo <= bar) std::cout << "5 foo is less than or equal to bar\n";
+  if (foo >= bar) std::cout << "6 foo is greater than or equal to bar\n";
 
   return 0;
 }
