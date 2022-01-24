@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 11:35:10 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/21 17:07:48 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/24 18:59:24 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <iostream>
 # include <functional>
 # include "utility.hpp"
+# include "algorithm.hpp"
 # include "RBT_iterator.hpp"
 
 namespace ft {
@@ -249,7 +250,11 @@ namespace ft {
 			iterator		find (const key_type& k) {return this->_find(k, this->_root);};
 			const_iterator	find (const key_type& k) const {return this->_cfind(k, this->_root);};
 
-
+			void swap(RBT& other) {
+				ft::swap(this->_root, other._root);
+				ft::swap(this->_cmp, other._cmp);
+				ft::swap(this->_allocator, other._allocator);
+			}
 			node_pointer	minValue(void) const {return this->_minValue(this->_root);};
 			node_pointer	maxValue(void) const {return this->_maxValue(this->_root);};
 			
@@ -257,19 +262,10 @@ namespace ft {
 			size_type		max_size(void) const {return this->_allocator.max_size();};
 			
 			/* *********** iterators *********** */
-			// iterator begin(void) {return iterator(minValue(), NULL);};
 			iterator begin(void) {return (iterator(minValue(), NULL));};
-			
-			
-			// const_iterator begin(void) const {return const_iterator(minValue(), NULL);};
 			const_iterator begin(void) const {return (const_iterator(minValue(), NULL));};
 			
-			
-			// iterator end(void) {return iterator(NULL, maxValue());};
-			iterator end(void) {return (iterator(NULL, maxValue()));};
-			
-			
-			// const_iterator end(void) const {return const_iterator(NULL, maxValue());};
+			iterator end(void) {return (iterator(NULL, maxValue()));};			
 			const_iterator end(void) const {return (const_iterator(NULL, maxValue()));};
 
 

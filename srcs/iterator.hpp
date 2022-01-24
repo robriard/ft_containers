@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 16:03:37 by unknow            #+#    #+#             */
-/*   Updated: 2021/12/30 13:47:46 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/24 17:19:01 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,10 @@ namespace ft {
 
 			difference_type operator-(const reverse_iterator<Iterator>& rhs) {return (rhs.base() - this->_it);};
 			reverse_iterator operator-(difference_type n) const {return reverse_iterator(this->_it + n);};
-			reverse_iterator& operator--() {return (++this->_it);};
+			reverse_iterator& operator--() {
+				++this->_it;
+				return (*this);
+			};
 			reverse_iterator  operator--(int) {
 				reverse_iterator tmp(*this);
 				operator--();
@@ -266,6 +269,8 @@ namespace ft {
 
 	template <class Iterator>
 	bool operator!=(const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {return (lhs.base() != rhs.base());};
+	template <class Iterator1, class Iterator2>
+	bool operator!=(const ft::reverse_iterator<Iterator1> lhs, const ft::reverse_iterator<Iterator2> rhs) {return (lhs.base() != rhs.base());};
 
 	template <class Iterator>
 	bool operator<(const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {return (lhs.base() > rhs.base());};

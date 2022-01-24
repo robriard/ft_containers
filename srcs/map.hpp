@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 10:46:39 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/21 18:04:30 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/24 18:56:24 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 # define MAP_HPP
 
 # include "red_black_tree.hpp"
-# include "algorithm.hpp"
-# include "iterator.hpp"
 # include "type_traits.hpp"
-# include "utility.hpp"
 # include <memory>
 
 namespace ft {
@@ -70,7 +67,7 @@ namespace ft {
 				return;
 			};
 			map (const map& src) : _allocator(src._allocator), _compare(src._compare), _rbt(src._rbt), _size(src._size) {return;};
-			~map(void){return;};
+			virtual ~map(void){return;};
 			
 			map& operator= (const map& rhs) {
 				if (*this == rhs)
@@ -83,17 +80,17 @@ namespace ft {
 			};
 			
 			/* ========== Iterators ========== */
-			iterator begin(void) {return this->_rbt.begin();};
 			const_iterator begin(void) const {return this->_rbt.begin();};
+			iterator begin(void) {return this->_rbt.begin();};
 			
-			iterator end(void) {return this->_rbt.end();};
 			const_iterator end(void) const {return this->_rbt.end();};
+			iterator end(void) {return this->_rbt.end();};
 			
-			reverse_iterator rbegin(void) {return reverse_iterator(this->end());};
-			const_reverse_iterator rbegin(void) const {return const_reverse_iterator(this->end());};
+			const_reverse_iterator rbegin(void) const {return const_reverse_iterator(this->_rbt.end());};
+			reverse_iterator rbegin(void) {return reverse_iterator(this->_rbt.end());};
 
-			reverse_iterator rend(void) {return reverse_iterator(this->begin());};
-			const_reverse_iterator rend(void) const {return const_reverse_iterator(this->begin());};
+			reverse_iterator rend(void) {return reverse_iterator(this->_rbt.begin());};
+			const_reverse_iterator rend(void) const {return const_reverse_iterator(this->_rbt.begin());};
 
 			/* ========== Capacity ========== */
 			bool 		empty(void) const {return (this->_size == 0);};
@@ -142,14 +139,17 @@ namespace ft {
 			};
 
 			void					swap (map& x) {
-				map<key_type, mapped_type> tmp = *this;
-				*this = x;
-				x = tmp;
+				this->_rbt.swap(x._rbt);
+				ft::swap(this->_allocator, x._allocator);
+				ft::swap(this->_compare, x._compare);
+				ft::swap(this->_size, x._size);
 			};
 
 			void					clear(void) {
-				this->_rbt.clear();
-				this->_size = 0;
+				if (this->_size != 0) {
+					this->_rbt.clear();
+					this->_size = 0;
+				}
 			}
 
 			/* ========== Observers ========== */
@@ -225,3 +225,15 @@ namespace ft {
 }
 
 #endif
+
+
+
+
+
+
+
+
+
+
+// reverse_iterator<RBT_const_iterator<ft::Node<ft::pair<const char, int> >, ft::less<const char> > >
+// reverse_iterator<RBT_iterator<ft::Node<ft::pair<const char, int> >, ft::less<const char> > >
