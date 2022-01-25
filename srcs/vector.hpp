@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:06:21 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/10 16:29:54 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/25 11:17:11 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ namespace ft {
 				return (&this->_vector[pos]);
 			};
 			void insert(iterator position, size_type n, const value_type& val) {
+				if (not n) return;
 				difference_type pos = position - this->_vector;
 				if (n + this->_size > this->_capacity) {
 					if (this->_size + n > this->_size * 2)

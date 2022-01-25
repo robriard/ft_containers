@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 10:46:39 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/24 18:56:24 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/25 10:37:56 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ namespace ft {
 					return *this;
 				this->_allocator = rhs._allocator;
 				this->_compare = rhs._compare;
-				this->_rbt = rhs._rbt;
+				this->_rbt.clear();
+				this->insert(rhs.begin(), rhs.end());
 				this->_size = rhs._size;
 				return *this;
 			};
