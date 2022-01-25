@@ -1,6 +1,11 @@
 #include "../base.hpp"
 #if !defined(USING_STD)
-# include "map.hpp"
+# ifdef DEBUG
+#  include "../../../srcs/map.hpp"
+# else
+#  include "map.hpp"
+# endif
+
 #else
 # include <map>
 #endif /* !defined(STD) */

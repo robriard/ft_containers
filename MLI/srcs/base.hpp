@@ -7,6 +7,7 @@
 #  define TESTED_NAMESPACE std
 # endif /* !defined(STD) */
 
+# include <map>
 # include <iostream>
 # include <string>
 

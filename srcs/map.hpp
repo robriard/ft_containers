@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 10:46:39 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/25 10:37:56 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/25 14:24:42 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,15 @@ namespace ft {
 			template <class InputIterator>
 			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = 0)
-				: _allocator(alloc), _compare(comp), _rbt(comp), _size(0) {
+				: _allocator(alloc), _compare(comp), _rbt(), _size(0) {
 				for (; first != last; ++first)
 					insert(*first);
 				return;
 			};
-			map (const map& src) : _allocator(src._allocator), _compare(src._compare), _rbt(src._rbt), _size(src._size) {return;};
+			map (const map& src) {*this = src;};
 			virtual ~map(void){return;};
 			
-			map& operator= (const map& rhs) {
+			map& operator=(const map& rhs) {
 				if (*this == rhs)
 					return *this;
 				this->_allocator = rhs._allocator;

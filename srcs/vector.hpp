@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:06:21 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/25 11:17:11 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/25 12:24:32 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,8 @@ namespace ft {
                 return this->_vector[n];
             };
             const_reference at (size_type n) const {
-                if (n > this->size) throw std::out_of_range("vector::at");
-                return this->vector[n];
+                if (n > this->_size) throw std::out_of_range("vector::at");
+                return this->_vector[n];
             };
             reference front(void) {return this->_vector[0];};
             const_reference front(void) const {return this->_vector[0];};
