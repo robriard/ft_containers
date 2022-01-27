@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 10:46:39 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/25 14:24:42 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/27 12:07:20 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ namespace ft {
 			typedef typename allocator_type::const_reference					const_reference;
 			typedef typename allocator_type::pointer							pointer;
 			typedef typename allocator_type::const_pointer						const_pointer;
-			typedef typename ft::RBT<value_type>::iterator						iterator;
-			typedef typename ft::RBT<value_type>::const_iterator				const_iterator;
+			typedef typename ft::mapRBT<value_type, key_compare>::iterator			iterator;
+			typedef typename ft::mapRBT<value_type, key_compare>::const_iterator	const_iterator;
 			typedef ft::reverse_iterator<iterator>								reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 			typedef typename allocator_type::size_type							size_type;
@@ -56,8 +56,15 @@ namespace ft {
 			/*			MEMBER FUNCTIONS                                                  */
             /* ************************************************************************** */
 			/* ========== Constructors ========== */
-			explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-				: _allocator(alloc), _compare(comp), _rbt(), _size(0) {return;};			
+			map(void) : _allocator(allocator_type()), _compare(key_compare()), _rbt(key_compare()), _size(0) {return;};
+			
+			
+			
+			explicit map (const key_compare& comp, const allocator_type& alloc = allocator_type())
+				: _allocator(alloc), _compare(comp()), _rbt(comp()), _size(0) {return;};	
+			
+			
+			
 			template <class InputIterator>
 			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = 0)
@@ -123,11 +130,13 @@ namespace ft {
 					this->insert(*first);
 			};
 
-			size_type erase			(const key_type& k) {
+			size_type 				erase(const key_type& k) {
 				ft::pair<iterator, bool> res = this->_rbt.erase(k);
-				if (res.second)
+				if (res.second) {
 					--this->_size;
-				return 1;
+					return 1;
+				}
+				return 0; 
 			};
 			void erase				(iterator position) {this->erase(position->first);};
 			void erase				(iterator first, iterator last) {
@@ -176,10 +185,10 @@ namespace ft {
 			allocator_type get_allocator(void) const {return this->_allocator;};
 
 		private:
-			allocator_type			_allocator;
-			Compare					_compare;
-			ft::RBT<value_type>		_rbt;
-			size_type				_size;
+			allocator_type							_allocator;
+			Compare									_compare;
+			ft::mapRBT<value_type, key_compare>		_rbt;
+			size_type								_size;
 	};
 
 	template <typename Key, typename T, typename Compare, typename Allocator>

@@ -1,11 +1,13 @@
 #include "common.hpp"
+#include "../../../srcs/RBT_iterator.hpp"
 
 #define T1 int
 #define T2 std::string
 
 struct ft_more {
+	void plop(void) {std::cout << "PLOP\n";};
 	bool	operator()(const T1 &first, const T1 &second) const {
-		return (first > second);
+		return (first < second);
 	}
 };
 

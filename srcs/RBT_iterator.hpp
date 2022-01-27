@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 09:33:49 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/19 15:59:23 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/26 10:52:15 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,14 @@ namespace ft {
 				operator++();
 				return (tmp);
 			};
-			RBT_iterator &operator--(void) {
+			RBT_iterator &operator--(void) {	
 				if (this->_node) {
 					this->_parent = this->_node;
-					if (this->_node->left)
+					if (this->_node->left) {
 						this->_node = this->_node->left;
-					else {
+						while (this->_node->right)
+							this->_node = this->_node->right;
+					} else {
 						while (this->_node->parent and this->_node->parent->left == this->_node)
 							this->_node = this->_node->parent;
 						this->_node = this->_node->parent;
@@ -149,9 +151,11 @@ namespace ft {
 			RBT_const_iterator &operator--(void) {
 				if (this->_node) {
 					this->_parent = this->_node;
-					if (this->_node->left)
+					if (this->_node->left) {
 						this->_node = this->_node->left;
-					else {
+						while (this->_node->right)
+							this->_node = this->_node->right;
+					} else {
 						while (this->_node->parent and this->_node->parent->left == this->_node)
 							this->_node = this->_node->parent;
 						this->_node = this->_node->parent;

@@ -17,6 +17,10 @@ int		main(void)
 	TESTED_NAMESPACE::map<T1, T2>::const_reverse_iterator ite(mp.rbegin());
 	printSize(mp);
 
+	std::cout << "===============================================\n";
+	for (TESTED_NAMESPACE::map<T1, T2>::reverse_iterator test = mp.rbegin(); test != mp.rend(); test++)
+		printPair(test);
+	std::cout << "===============================================\n";
 
 	printPair(++ite);
 	printPair(ite++);
