@@ -5,13 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/04 13:07:47 by hbaudet           #+#    #+#             */
-/*   Updated: 2022/01/27 12:03:44 by unknow           ###   ########.fr       */
+/*   Created: 2020/12/02 13:07:06 by hbaudet           #+#    #+#             */
+/*   Updated: 2022/01/28 13:53:04 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "map.hpp"
-#include <map>
+#include "set.hpp"
+#include <set>
 #include <iostream>
 
 #ifndef STD
@@ -22,41 +22,23 @@
 
 using namespace NAMESPACE;
 
-template <class Key, class T>
-void	print(map<Key, T>& lst)
+template <class T>
+void	print(set<T>& lst)
 {
-	for (typename map<Key, T>::iterator it = lst.begin(); it != lst.end(); it++)
-		std::cout << *it << ' ';
-	std::cout << '\n';
+	for (typename set<T>::iterator it = lst.begin(); it != lst.end(); it++)
+		std::cout << it->first << " => " << it->second << '\n';
 }
 
-int main()
+int main ()
 {
-	pair<int, std::string>			my_pair(8, "salut");
-	map<int, std::string>			test;
-	map<int, std::string>::iterator	it;
+  int myints[] = {75,23,65,42,13};
+  set<int> myset (myints,myints+5);
 
-	test.insert(my_pair);
-	test.insert(pair<int, std::string>(-4, "bar"));
-	test.insert(pair<int, std::string>(2, "machin"));
-	test.insert(pair<int, std::string>(3, "foo"));
-	test.insert(pair<int, std::string>(746, "Marcel"));
-	test.insert(pair<int, std::string>(1, "truc"));
-	it = test.begin();
-	std::cout << '\n';
+  std::cout << "myset contains:";
+  for (set<int>::iterator it=myset.begin(); it!=myset.end(); ++it)
+    std::cout << ' ' << *it;
 
-	while (it != test.end())
-	{
-		// std::cout << "start of while\n";
-		std::cout << it->first << ", " << it->second << '\n';
-		it++;
-// 		std::cout << "iterator incremented\n";
+  std::cout << '\n';
 
-// #ifndef STD
-// 		std::cout << it.getPointer() << '\n';
-// 		std::cout << test.end().getPointer() << '\n';
-// #endif
-
-	}
-	std::cout << "End of display loop\n";
+  return 0;
 }

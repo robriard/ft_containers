@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 16:03:37 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/25 12:37:52 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/27 18:39:56 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ namespace ft {
 			typedef Distance  difference_type;
 			typedef Pointer   pointer;
 			typedef Reference reference;
+			typedef const Reference const_reference;
 			typedef Category  iterator_category;
 	};
 

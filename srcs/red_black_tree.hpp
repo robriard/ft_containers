@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 11:35:10 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/27 12:32:37 by unknow           ###   ########.fr       */
+/*   Updated: 2022/01/28 13:57:43 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ namespace ft {
 	# define RED 1
 	# define BLACK 2
 /* ************************************************************************** */
-/*             NODE CLASS                                                     */
+/*            NODE CLASS                                                      */
 /* ************************************************************************** */
 	template <class Type>
-	class Node {
+	class mapNode {
 		public:
             /* *********** member types *********** */
-			typedef Type			value_type;
-			typedef Node*			node_pointer;
-			typedef const Node*		const_node_pointer;
-			typedef Node&			node_reference;
-			typedef const Node&		const_node_reference;
+			typedef Type				value_type;
+			typedef mapNode*			node_pointer;
+			typedef const mapNode*		const_node_pointer;
+			typedef mapNode&			node_reference;
+			typedef const mapNode&		const_node_reference;
 			value_type		value;
 			node_pointer	parent;
 			node_pointer	left;
@@ -41,12 +41,47 @@ namespace ft {
 			int				color;
 
             /* *********** member functions *********** */
-			Node() : value(), parent(NULL), left(NULL), right(NULL), color(RED) {return;};
-			Node(const value_type v, node_pointer parent = NULL, node_pointer left = NULL, node_pointer right = NULL)
+			mapNode() : value(), parent(NULL), left(NULL), right(NULL), color(RED) {return;};
+			mapNode(const value_type v, node_pointer parent = NULL, node_pointer left = NULL, node_pointer right = NULL)
 				: value(v), parent(parent), left(left), right(right), color(RED) {return;};
-			Node(const_node_reference src)
+			mapNode(const_node_reference src)
 				: value(src.value), parent(src.parent), left(src.left), right(src.right), color(RED) {return;};
-			virtual ~Node(void) {return;};
+			virtual ~mapNode(void) {return;};
+
+			node_reference operator=(const_node_reference rhs) {
+				if (rhs == *this) return *this;
+				this->value = rhs.value;
+				this->parent = rhs.parent;
+				this->left = rhs.left;
+				this->right = rhs.right;
+				this->color = rhs.color;
+				return *this;
+			}
+			bool operator==(const_node_reference rhs) {return (this->value == rhs.value);};
+	};
+	
+	template <class Type>
+	class setNode {
+		public:
+            /* *********** member types *********** */
+			typedef const Type		value_type;
+			typedef setNode*		node_pointer;
+			typedef const setNode*	const_node_pointer;
+			typedef setNode&		node_reference;
+			typedef const setNode&	const_node_reference;
+			value_type				value;
+			node_pointer			parent;
+			node_pointer			left;
+			node_pointer			right;
+			int						color;
+
+            /* *********** member functions *********** */
+			setNode() : value(), parent(NULL), left(NULL), right(NULL), color(RED) {return;};
+			setNode(const value_type v, node_pointer parent = NULL, node_pointer left = NULL, node_pointer right = NULL)
+				: value(v), parent(parent), left(left), right(right), color(RED) {return;};
+			setNode(const_node_reference src)
+				: value(src.value), parent(src.parent), left(src.left), right(src.right), color(RED) {return;};
+			virtual ~setNode(void) {return;};
 
 			node_reference operator=(const_node_reference rhs) {
 				if (rhs == *this) return *this;
@@ -63,7 +98,7 @@ namespace ft {
 /* ************************************************************************** */
 /*             MAP RED_BLACK_TREE CLASS                                       */
 /* ************************************************************************** */
-	template <class Type, class Compare, class Node = Node<Type>, class Type_Alloc = std::allocator<Type>, class Node_Alloc = std::allocator<Node> >
+	template <class Type, class Compare, class Node = mapNode<Type>, class Type_Alloc = std::allocator<Type>, class Node_Alloc = std::allocator<Node> >
 	class mapRBT {
 		public:
             /* *********** member types *********** */
@@ -74,8 +109,8 @@ namespace ft {
 			typedef	Type_Alloc												type_allocator;
             typedef typename type_allocator::size_type						size_type;
 			typedef Node_Alloc												node_allocator;
-			typedef typename ft::RBT_iterator<Node, key_compare>			iterator;
-			typedef typename ft::RBT_const_iterator<Node, key_compare>	const_iterator;
+			typedef typename ft::MAP_iterator<Node, key_compare>			iterator;
+			typedef typename ft::MAP_const_iterator<Node, key_compare>	const_iterator;
 			typedef typename Node::node_pointer								node_pointer;
 			typedef typename Node::const_node_pointer						const_node_pointer;
 			typedef typename Node::node_reference							node_reference;
@@ -409,17 +444,17 @@ namespace ft {
 /* ************************************************************************** */
 /*             SET RED_BLACK_TREE CLASS                                       */
 /* ************************************************************************** */
-	template <class Type, class Compare, class Node = Node<Type>, class Type_Alloc = std::allocator<Type>, class Node_Alloc = std::allocator<Node> >
+	template <class Type, class Compare, class Node = setNode<Type>, class Type_Alloc = std::allocator<Type>, class Node_Alloc = std::allocator<Node> >
 	class setRBT {
 		public:
             /* *********** member types *********** */
-			typedef Type													value_type;
+			typedef const Type												value_type;
 			typedef Compare													key_compare;
 			typedef	Type_Alloc												type_allocator;
             typedef typename type_allocator::size_type						size_type;
 			typedef Node_Alloc												node_allocator;
-			typedef typename ft::RBT_iterator<Node, key_compare>			iterator;
-			typedef typename ft::RBT_const_iterator<Node, key_compare>	const_iterator;
+			typedef typename ft::SET_iterator<Node, key_compare>			iterator;
+			typedef typename ft::SET_const_iterator<Node, key_compare>		const_iterator;
 			typedef typename Node::node_pointer								node_pointer;
 			typedef typename Node::const_node_pointer						const_node_pointer;
 			typedef typename Node::node_reference							node_reference;
@@ -437,7 +472,7 @@ namespace ft {
 					this->_root = other._root;
 				return (*this);
 			};
-			node_reference operator*() const {return ((this->_root));};
+			const_node_reference operator*() const {return ((*this->_root));};
 			node_pointer operator->() const {return (&(this->_root));};
 
 			/* *********** publics members functions *********** */
@@ -580,9 +615,9 @@ namespace ft {
 
 
 		private:
-			node_pointer	_root;
-			key_compare		_cmp;
-			node_allocator	_allocator;
+			node_pointer					_root;
+			key_compare						_cmp;
+			node_allocator					_allocator;
 		
 		/* *********** privates members functions *********** */
 		iterator		_find(const value_type& to_find, node_pointer node) {

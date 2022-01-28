@@ -20,8 +20,10 @@ int		main(void)
 	printPair(ite++);
 	printPair(++ite);
 
+	std::cout << "PLOP\n";
 	it->m();
 	ite->m();
+	std::cout << "PLOPY\n";
 
 	printPair(++it);
 	printPair(it++);
