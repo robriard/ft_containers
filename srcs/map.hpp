@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 10:46:39 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/28 13:48:57 by unknow           ###   ########.fr       */
+/*   Updated: 2022/02/01 16:55:25 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ namespace ft {
 			};
 
 			size_type 				erase(const key_type& k) {
+				if (this->_rbt.find(k) == this->end()) return 0;
 				ft::pair<iterator, bool> res = this->_rbt.erase(k);
 				if (res.second) {
 					--this->_size;
@@ -229,15 +230,3 @@ namespace ft {
 }
 
 #endif
-
-
-
-
-
-
-
-
-
-
-// reverse_iterator<RBT_const_iterator<ft::Node<ft::pair<const char, int> >, ft::less<const char> > >
-// reverse_iterator<RBT_iterator<ft::Node<ft::pair<const char, int> >, ft::less<const char> > >

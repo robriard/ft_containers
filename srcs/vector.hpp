@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 14:06:21 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/26 17:06:16 by unknow           ###   ########.fr       */
+/*   Updated: 2022/02/01 16:43:03 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ namespace ft {
 				this->insert(this->begin(), first, last);
 			};
 			void push_back (const value_type& val) {
-				if (this->_capacity > 0 && this->_size == this->_capacity) {
+				if (this->_capacity > 0 and this->_size == this->_capacity) {
 					pointer new_vector = this->_allocator.allocate(this->_capacity * 2);
 					for (size_type i = 0; i < this->_size; i++) {
 						this->_allocator.construct(&new_vector[i], this->_vector[i]);
@@ -254,9 +254,6 @@ namespace ft {
             pointer         _vector;
             size_type       _size;
             size_type       _capacity;
-
-
-
     };
 
 	template <class T, class Alloc>

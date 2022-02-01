@@ -6,7 +6,7 @@
 /*   By: unknow <unknow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 11:35:10 by unknow            #+#    #+#             */
-/*   Updated: 2022/01/28 13:57:43 by unknow           ###   ########.fr       */
+/*   Updated: 2022/02/01 16:50:28 by unknow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ namespace ft {
             typedef typename type_allocator::size_type						size_type;
 			typedef Node_Alloc												node_allocator;
 			typedef typename ft::MAP_iterator<Node, key_compare>			iterator;
-			typedef typename ft::MAP_const_iterator<Node, key_compare>	const_iterator;
+			typedef typename ft::MAP_const_iterator<Node, key_compare>		const_iterator;
 			typedef typename Node::node_pointer								node_pointer;
 			typedef typename Node::const_node_pointer						const_node_pointer;
 			typedef typename Node::node_reference							node_reference;
@@ -128,11 +128,11 @@ namespace ft {
 					this->_root = other._root;
 				return (*this);
 			};
-			node_reference operator*() const {return ((this->_root));};
-			node_pointer operator->() const {return (&(this->_root));};
+			node_reference operator*(void) const {return ((this->_root));};
+			node_pointer operator->(void) const {return (&(this->_root));};
 
 			/* *********** publics members functions *********** */
-			ft::pair<iterator, bool> insert( const value_type& value) {
+			ft::pair<iterator, bool> insert(const value_type& value) {
 				if (not this->_root) {
 					this->_root = this->_allocator.allocate(1);
 					this->_allocator.construct(this->_root, Node(value));
@@ -472,8 +472,8 @@ namespace ft {
 					this->_root = other._root;
 				return (*this);
 			};
-			const_node_reference operator*() const {return ((*this->_root));};
-			node_pointer operator->() const {return (&(this->_root));};
+			const_node_reference operator*(void) const {return ((*this->_root));};
+			node_pointer operator->(void) const {return (&(this->_root));};
 
 			/* *********** publics members functions *********** */
 			ft::pair<iterator, bool> insert( const value_type& value) {
